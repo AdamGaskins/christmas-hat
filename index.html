@@ -1,0 +1,34 @@
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="style.css" />
+        <script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+        <script type="text/javascript" src="fabric/fabric.min.js"></script>
+        <script type="text/javascript" src="code.js"></script>
+    </head>
+    <body>
+        <img src="res/title.png" id="header" />
+
+        <div id="upload">
+            <input id="upload_box" type="file" accept="image/*" />
+
+            <button class="full" id="upload_button">Choose Image</button>
+        </div>
+
+        <div id="edit">
+            <canvas id="canvas" width="0" height="0"></canvas>
+            &nbsp;
+            <button class="full" id="finish_edit">Finish</button>
+        </div>
+
+        <div id="save">
+
+            <img id="preview" />
+
+            <button class="full" id="save_button">Download</button>
+            <button class="full" id="restart_button">Do Another</button>
+
+        </div>
+    </body>
+</html>

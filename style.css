@@ -1,0 +1,87 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700');
+
+body, button
+{
+    font-family: 'Open Sans', sans-serif;
+}
+
+body
+{
+    background: #2ecc71;
+
+    margin: 0px auto;
+    padding: 10px;
+    box-sizing: border-box;
+    display: block;
+    width: 500px;
+    max-width: 100%;
+
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#header
+{
+    margin-bottom: 50px;
+    width: 100%;
+}
+
+#preview
+{
+    margin-bottom: 50px;
+}
+
+#upload
+{
+    margin-top: 100px;
+}
+
+button
+{
+    border: 0px solid black;
+    background: #cb4e4e;
+    color: white;
+    box-shadow: 0 10px #ab3c3c;
+    margin-bottom: 10px;
+    outline: none;
+    margin-top: 6px;
+    cursor: pointer;
+    font-size: 2em;
+    padding: 20px 80px;
+}
+
+button:hover
+{
+    margin-top: 4px;
+    box-shadow: 0 12px #ab3c3c;
+    margin-bottom: 12px;
+}
+
+button:active
+{
+    margin-top: 16px;
+    box-shadow: 0 0px #ab3c3c;
+    margin-bottom: 0px;
+}
+
+button.full
+{
+    width: 100%;
+}
+
+.canvas-container
+{
+    background-color: #65D695;
+    margin-bottom: 30px;
+}
+
+@media(max-width: 700px)
+{
+    button
+    {
+        width: 100%;
+        font-size: 1.5em;
+        padding-left: 5px;
+        padding-right: 5px;
+    }
+}
