@@ -2,6 +2,7 @@ var canvas = null;
 var bgimage = null;
 
 var filename = "";
+var reader;
 
 var canvas_bgimage = null;
 var canvas_outline = null;
@@ -21,7 +22,11 @@ $(function() {
     $("#upload_box").change(function(e) {
         filename = $("#upload_box").val().split(/[\\/]/g).pop().split('.')[0];
         $("#output_filename").val(filename + "_CHRISTMAS-HAT");
-        var reader = new FileReader();
+        reader = new FileReader();
+        reader.onerror = function(event) {
+            alert(event);
+            console.log(event);
+        };
         reader.onload = function(event) {
             bgimage = new Image();
             bgimage.crossOrigin = "Anonymous";

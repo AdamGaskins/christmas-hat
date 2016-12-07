@@ -1,3 +1,29 @@
+<?php
+if(isset($_FILES['image']))
+{
+    $errors=array();
+    $allowed_ext= array('jpg','jpeg','png','gif');
+    $file_name =$_FILES['image']['name'];
+ //   $file_name =$_FILES['image']['tmp_name'];
+    $file_ext = strtolower( end(explode('.',$file_name)));
+
+
+    $file_size=$_FILES['image']['size'];
+    $file_tmp= $_FILES['image']['tmp_name'];
+
+    $type = pathinfo($file_tmp, PATHINFO_EXTENSION);
+    $data = file_get_contents($file_ext);
+    $base64 = 'data:image/' . $type . ';base64,' . base64_encode($data);
+
+    if($file_size > 2097152)
+    {
+        header("Location: index.php?toobig");
+        exit;
+    }
+
+    header("Location: index.php")
+}
+?>
 <html>
     <head>
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,9 +38,11 @@
 
         <div id="content">
             <div id="upload">
-                <input id="upload_box" type="file" accept="image/*" />
+                <form action="" method="POST" enctype="multipart/form-data">
+                    <input id="upload_box" type="file" name="image" accept="image/*" />
 
-                <button class="full" id="upload_button">Choose Image</button>
+                    <button class="full" id="upload_button">Choose Image</button>
+                </form>
             </div>
 
             <div id="edit">
