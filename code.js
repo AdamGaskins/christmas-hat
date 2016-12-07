@@ -1,9 +1,6 @@
 var canvas = null;
 var bgimage = null;
 
-var filename = "";
-var reader;
-
 var canvas_bgimage = null;
 var canvas_outline = null;
 var canvas_hat = null;
@@ -14,28 +11,25 @@ $(function() {
     $("#edit,#save").hide();
     $("#upload_box").hide();
 
+    if($("#image").val() === "1")
+    {
+        $("#upload").hide();
+        $("#edit").show();
+
+        bgimage = new Image();
+        bgimage.onload = function() {
+            moveToEdit();
+        };
+        bgimage.src = $("#base64").val();
+    }
+
     // upload
     $("#upload_button").click(function() {
         $("#upload_box").click();
     });
 
     $("#upload_box").change(function(e) {
-        filename = $("#upload_box").val().split(/[\\/]/g).pop().split('.')[0];
-        $("#output_filename").val(filename + "_CHRISTMAS-HAT");
-        reader = new FileReader();
-        reader.onerror = function(event) {
-            alert(event);
-            console.log(event);
-        };
-        reader.onload = function(event) {
-            bgimage = new Image();
-            bgimage.crossOrigin = "Anonymous";
-            bgimage.onload = function() {
-                moveToEdit();
-            };
-            bgimage.src = event.target.result;
-        };
-        reader.readAsDataURL(e.target.files[0]);
+        $("#upload_form").submit();
     });
 
     // edit
@@ -51,7 +45,7 @@ $(function() {
 
     // download
     $("#restart_button").click(function() {
-        window.location.reload();
+        window.location.href = '';
     });
 
     canvas = new fabric.Canvas('canvas', {
