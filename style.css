@@ -5,12 +5,19 @@ body, button
     font-family: 'Open Sans', sans-serif;
 }
 
-body
+body, html
 {
     background: #2ecc71;
+    border: 0px;
+    padding: 0px;
+    margin: 0px;
+}
 
+#content
+{
     margin: 0px auto;
-    padding: 10px;
+    padding: 15px;
+    padding-top: 0px;
     box-sizing: border-box;
     display: block;
     width: 500px;
@@ -20,16 +27,27 @@ body
     text-align: center;
 }
 
+#edit
+{
+    box-sizing: border-box;
+}
+
 #header
 {
-    margin-bottom: 50px;
+    margin: 0px auto;
+    margin-bottom: 25px;
     width: 100%;
+    max-width: 500px;
+    display: block;
+    padding: 8px;
+    box-sizing: border-box;
 }
 
 #preview
 {
-    margin-bottom: 50px;
+    width: 100%;
 }
+
 
 #upload
 {
@@ -69,10 +87,13 @@ button.full
     width: 100%;
 }
 
-.canvas-container
+#footer
 {
-    background-color: #65D695;
-    margin-bottom: 30px;
+    padding: 20px 40px;
+    font-size: 12px;
+    color: #FFF;
+    opacity: 0.75;
+    margin-top: 50px;
 }
 
 @media(max-width: 700px)
@@ -80,8 +101,13 @@ button.full
     button
     {
         width: 100%;
-        font-size: 1.5em;
+        font-size: 1em;
         padding-left: 5px;
         padding-right: 5px;
+    }
+
+    #footer
+    {
+        padding: 20px 20px;
     }
 }

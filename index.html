@@ -8,27 +8,35 @@
         <script type="text/javascript" src="code.js"></script>
     </head>
     <body>
-        <img src="res/title.png" id="header" />
+        <img src="res/titlex2.png" id="header" />
 
-        <div id="upload">
-            <input id="upload_box" type="file" accept="image/*" />
+        <div id="content">
+            <div id="upload">
+                <input id="upload_box" type="file" accept="image/*" />
 
-            <button class="full" id="upload_button">Choose Image</button>
-        </div>
+                <button class="full" id="upload_button">Choose Image</button>
+            </div>
 
-        <div id="edit">
-            <canvas id="canvas" width="0" height="0"></canvas>
-            &nbsp;
-            <button class="full" id="finish_edit">Finish</button>
-        </div>
+            <div id="edit">
+                <canvas id="canvas" width="0" height="0"></canvas>
+                <button class="full" id="finish_edit">Finish</button>
+            </div>
 
-        <div id="save">
+            <div id="save">
 
-            <img id="preview" />
+                <img id="preview" />
 
-            <button class="full" id="save_button">Download</button>
-            <button class="full" id="restart_button">Do Another</button>
+                <form method="POST" action="download.php">
+                    <input type="hidden" value="" name="data" id="image_data" />
+                    <input type="hidden" value="" name="name" id="output_filename" />
+                    <button class="full" type="submit" id="save_button">Download</button>
+                    <button class="full" type="button" id="restart_button">Do Another</button>
+                </form>
+            </div>
 
+            <div id="footer">
+                We do not save any of your personal information (including any photos you upload).
+            </div>
         </div>
     </body>
 </html>

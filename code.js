@@ -1,16 +1,13 @@
 var canvas = null;
 var bgimage = null;
 
+var filename = "";
+
 var canvas_bgimage = null;
 var canvas_outline = null;
 var canvas_hat = null;
 
 var output_data = "";
-
-// the scale value to use when positioning objects
-var positionalZoom = 1;
-// the actual zoom amount
-var zoomAmount = 1;
 
 $(function() {
     $("#edit,#save").hide();
@@ -22,6 +19,8 @@ $(function() {
     });
 
     $("#upload_box").change(function(e) {
+        filename = $("#upload_box").val().split(/[\\/]/g).pop().split('.')[0];
+        $("#output_filename").val(filename + "_CHRISTMAS-HAT");
         var reader = new FileReader();
         reader.onload = function(event) {
             bgimage = new Image();
@@ -39,25 +38,50 @@ $(function() {
         saveImage();
 
         $("#preview").attr("src", output_data);
+        $("#image_data").val(output_data.substring("data:image/png;base64,".length));
 
         $("#edit").hide();
         $("#save").show();
     });
 
     // download
-    $("#save_button").click(function() {
-        window.location.href = output_data;
-    });
-
     $("#restart_button").click(function() {
         window.location.reload();
     });
 
-    canvas = new fabric.Canvas('canvas');
+    canvas = new fabric.Canvas('canvas', {
+        enableRetinaScaling: false,
+        backgroundColor: "#65D695",
+        preserveObjectStacking: true,
+        selection: false,
+    });
 
     $(window).resize(function() {
         resizeCanvas();
     });
+
+    // allow scrolling on mobile
+    var disableScroll = function(){
+      canvas.allowTouchScrolling = false;
+    };
+
+    var enableScroll = function(){
+      canvas.allowTouchScrolling = true;
+    };
+
+    canvas.on('mouse:down', function(e) {
+        if(canvas.getActiveObject() == null) {
+            // clicked on blank space
+            // allow scroll
+            enableScroll();
+            // but still show controls
+            canvas.setActiveObject(canvas_hat);
+        }
+        else {
+            disableScroll();
+        }
+    });
+    canvas.on('mouse:up', enableScroll);
 });
 
 function saveImage() {
@@ -67,37 +91,29 @@ function saveImage() {
     // crop and resize canvas
     resizeCanvas(500);
     var center = new fabric.Point(canvas.width / 2, canvas.height / 2);
-    canvas.zoomToPoint(center, zoomAmount * 5 / 3);
+    canvas.zoomToPoint(center, 5 / 3);
 
     // save image
     canvas.renderAll();
-    alert(canvas.width);
     output_data = canvas.toDataURL('png');
 }
 
 function resizeCanvas(forcew) {
     var w = $("#edit").innerWidth();
-    console.log(w);
     if(w > 500)
         w = 500;
 
     if(typeof forcew === "number") w = forcew;
 
-    if(canvas.width != w)
+    if(canvas.getWidth() != w)
     {
-        canvas.setHeight(w);
-        canvas.setWidth(w);
+        canvas.setDimensions({
+            width: w,
+            height: w
+        })
     }
 
-    var lookat = bgimage.width;
-    if(bgimage.width < bgimage.height)
-        lookat = bgimage.height;
-
-    positionalZoom = 300 / lookat;
-    zoomAmount = w / 500 * positionalZoom;
-    canvas.setZoom(zoomAmount);
-    canvas.viewportTransform[4] = 0;
-    canvas.viewportTransform[5] = 0;
+    canvas.setZoom(w / 500);
 }
 
 function moveToEdit() {
@@ -106,7 +122,7 @@ function moveToEdit() {
 
     // add the outline
     canvas_outline = new fabric.Rect({
-        stroke: "red",
+        stroke: "rgb(0, 255, 0)",
         fill: "rgba(0, 0, 0, 0)",
     });
 
@@ -119,7 +135,9 @@ function moveToEdit() {
     __.onload = function() {
         canvas_hat = new fabric.Image(__);
         position_hat(canvas_hat);
+        canvas.add(canvas_bgimage);
         canvas.add(canvas_hat);
+        canvas.add(canvas_outline);
         canvas.setActiveObject(canvas_hat);
     };
     __.src = "res/Christmas-Hat.png";
@@ -128,12 +146,9 @@ function moveToEdit() {
     lock_and_center(canvas_bgimage);
     lock_and_center(canvas_outline);
     canvas_outline.set({
-        strokeWidth: 2 / positionalZoom,
-        strokeDashArray: [8 / positionalZoom, 8 / positionalZoom]
+        strokeWidth: 2,
+        strokeDashArray: [8, 8]
     });
-
-    canvas.add(canvas_bgimage);
-    canvas.add(canvas_outline);
 
     // change the visible card
     $("#upload").hide();
@@ -145,14 +160,18 @@ function moveToEdit() {
 
 function position_hat(obj) {
     obj.set({
-        left: 150 / positionalZoom,
-        top: 50 / positionalZoom,
-        width: 200 / positionalZoom,
-        height: 200 / positionalZoom,
+        left: 150,
+        top: 50,
+        width: 200,
+        height: 200,
 
         rotatingPointOffset: 10,
+        cornerSize: 26,
+
+        borderScaleFactor: 1,
 
         borderOpacityWhenMoving: 1.0,
+        borderWidth: 2,
         borderColor: "red",
         cornerColor: "red",
         lockUniScaling: true
@@ -160,11 +179,18 @@ function position_hat(obj) {
 }
 
 function lock_and_center(obj) {
+    var w = 300;
+    var h = 300;
+    if(obj.width > obj.height)
+        h *= obj.height / obj.width;
+    else if(obj.width < obj.height)
+        w *= obj.width / obj.height;
+
     obj.set({
-        left: 100 / positionalZoom,
-        top: 100 / positionalZoom,
-        width: 300 / positionalZoom,
-        height: 300 / positionalZoom,
+        left: 100 + (300 - w) / 2,
+        top: 100 + (300 - h) / 2,
+        width: w,
+        height: h,
 
         selectable: false,
         evented: false,
