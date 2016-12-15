@@ -1,8 +1,11 @@
 <?php
 $image = false;
 $file_name = "";
+
+// IF an image has been uploaded...
 if(isset($_FILES['image']))
 {
+    // get the data and put it in the page
     $errors=array();
     $allowed_ext= array('jpg','jpeg','png','gif');
     $full_file_name =$_FILES['image']['name'];
@@ -43,6 +46,7 @@ if(isset($_FILES['image']))
         <img src="res/titlex2.png" id="header" />
 
         <div id="content">
+            <!-- upload page -->
             <div id="upload">
                 <form id="upload_form" action="index.php" method="POST" enctype="multipart/form-data">
                     <input id="upload_box" type="file" name="image" />
@@ -51,11 +55,13 @@ if(isset($_FILES['image']))
                 </form>
             </div>
 
+            <!-- edit page -->
             <div id="edit">
                 <canvas id="canvas" width="0" height="0"></canvas>
                 <button class="full" id="finish_edit">Finish</button>
             </div>
 
+            <!-- preview/save page -->
             <div id="save">
 
                 <img id="preview" />
@@ -68,6 +74,7 @@ if(isset($_FILES['image']))
                 </form>
             </div>
 
+            <!-- footer (always visible) -->
             <div id="footer">
                 We do not save any of your personal information (including any photos you upload).
             </div>
